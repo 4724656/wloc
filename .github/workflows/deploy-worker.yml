@@ -7,6 +7,11 @@ on:
     paths:
       - "worker/**"
       - ".github/workflows/deploy-worker.yml"
+  workflow_run:
+    workflows:
+      - Sync Upstream
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -14,6 +19,11 @@ permissions:
 
 jobs:
   deploy:
+    # GitHub's GITHUB_TOKEN push does not normally trigger another workflow;
+    # workflow_run covers successful upstream-sync commits.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     defaults:
