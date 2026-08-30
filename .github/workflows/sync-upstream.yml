@@ -29,4 +29,4 @@ jobs:
           test_mode: false
 
       - name: Report sync result
-        run: echo "New commits synced: ${{ steps.sync.outputs.has_new_commits }}"
+        run: 'echo "New commits synced: ${{ steps.sync.outputs.has_new_commits }}"'
